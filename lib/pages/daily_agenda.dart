@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:martian/global_variables.dart';
+import 'package:martian/pages/resource_tracker.dart';
 
 class Task {
   String title;
+  String desc;
   TimeOfDay time;
   bool isDone;
 
-  Task({required this.title, required this.time, required this.isDone});
+  Task({
+    required this.title,
+    required this.time,
+    required this.isDone,
+    required this.desc,
+  });
 }
 
 class DailyAgenda extends StatefulWidget {
@@ -25,6 +33,7 @@ class _DailyAgendaState extends State<DailyAgenda> {
 
   _showAddTaskDialog(BuildContext context) async {
     TextEditingController titleController = TextEditingController();
+    TextEditingController descController = TextEditingController();
     TimeOfDay selectedTime = TimeOfDay.now();
 
     await showTimePicker(
@@ -43,7 +52,7 @@ class _DailyAgendaState extends State<DailyAgenda> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               child: Column(
                 children: [
                   const Padding(
@@ -57,6 +66,10 @@ class _DailyAgendaState extends State<DailyAgenda> {
                   TextField(
                     controller: titleController,
                     decoration: const InputDecoration(labelText: 'Task Title'),
+                  ),
+                  TextField(
+                    controller: descController,
+                    decoration: const InputDecoration(labelText: 'Description'),
                   ),
                   const SizedBox(height: 10),
                   Text('Selected Time: ${selectedTime.format(context)}'),
@@ -72,9 +85,11 @@ class _DailyAgendaState extends State<DailyAgenda> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          if (titleController.text.isNotEmpty) {
+                          if (titleController.text.isNotEmpty &&
+                              descController.text.isNotEmpty) {
                             Task newTask = Task(
                               title: titleController.text,
+                              desc: descController.text,
                               time: selectedTime,
                               isDone: false,
                             );
@@ -104,9 +119,25 @@ class _DailyAgendaState extends State<DailyAgenda> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Daily Agenda'),
+          backgroundColor: GlobalVariables.secondaryColor,
+          title: const Text(
+            'Daily Agenda',
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
-            TextButton(onPressed: () {}, child: const Text('Resources')),
+            TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) => ResourceTrackingScreen(),
+                  );
+                },
+                child: const Text(
+                  'Resources',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 109, 222),
+                  ),
+                )),
           ],
         ),
         body: ListView.builder(

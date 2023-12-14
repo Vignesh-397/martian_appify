@@ -10,8 +10,8 @@ class Resource {
 
 final List<Resource> resources = [
   Resource(name: 'Oxygen Level', quantity: 75),
-  Resource(name: 'Food Supply', quantity: 30),
-  Resource(name: 'Water Reserve', quantity: 0),
+  Resource(name: 'Food Supply', quantity: 35),
+  Resource(name: 'Water Reserve', quantity: 50),
 ];
 
 class ResourceLog {

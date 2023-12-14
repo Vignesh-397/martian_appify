@@ -7,6 +7,7 @@ class GlobalVariables {
       Color.fromARGB(255, 53, 136, 204)
     ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
   }
+
   static const appBarGradient = LinearGradient(
     colors: [
       Color.fromARGB(255, 29, 201, 192),
@@ -27,5 +28,10 @@ class GlobalVariables {
     Color.fromARGB(255, 14, 78, 190),
     Color.fromARGB(255, 30, 121, 138)
   ], begin: Alignment.topLeft, end: Alignment.bottomRight);
-  static const secondaryColor = Color.fromRGBO(255, 153, 0, 1);
+  static const secondaryColor = Color.fromRGBO(0, 27, 121, 1);
 }
+
+
+// Color.fromARGB(255, 9, 5, 128),
+//     Color.fromARGB(255, 70, 69, 140),
+//     Color.fromARGB(255, 232, 169, 169)

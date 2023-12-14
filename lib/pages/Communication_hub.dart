@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:martian/global_variables.dart';
 
 class NearbyPeopleScreen extends StatefulWidget {
   @override
@@ -47,7 +48,13 @@ class NearbyPeopleScreenState extends State<NearbyPeopleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Find Nearby People'),
+        title: const Text(
+          'Find Nearby People',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: GlobalVariables.secondaryColor,
       ),
       body: _buildBody(),
     );

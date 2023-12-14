@@ -11,8 +11,11 @@ class ResourceTrackingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: GlobalVariables.appBarColor,
-          title:  Text('Resources',style: GoogleFonts.aBeeZee(color: Colors.white),),
+          backgroundColor: GlobalVariables.secondaryColor,
+          title: Text(
+            'Resources',
+            style: GoogleFonts.aBeeZee(color: Colors.white),
+          ),
         ),
         body: ListView.builder(
           itemCount: Resources.length,
@@ -23,17 +26,42 @@ class ResourceTrackingScreen extends StatelessWidget {
                 onTap: () => _showLogsDialog(
                     context, resources[index].name, ResourceLogs[index]),
                 child: Card(
-                  child: Center(
-                    child: ListTile(
-                      title: Text(Resources[index].name,style: GoogleFonts.aBeeZee(),),
-                      subtitle: Resources[index].name == 'Oxygen Level' ||
-                          Resources[index].name == 'Water Reserve'
-                          ? Text(
-                          '${Resources[index].quantity.toStringAsFixed(2)}% Left',style: GoogleFonts.aBeeZee(),)
-                          : Text(
-                          '${Resources[index].quantity.toString()}pkts Left',style: GoogleFonts.aBeeZee(),),
-                      trailing:
-                      _buildCircularProgress(resources[index].quantity),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  color: Colors.transparent, // Set the color to transparent
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 184, 240, 237),
+                          Color.fromARGB(255, 122, 138, 239),
+                        ], // Replace with your desired colors
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: Center(
+                      child: ListTile(
+                        title: Text(
+                          Resources[index].name,
+                          style: GoogleFonts.aBeeZee(),
+                        ),
+                        subtitle: Resources[index].name == 'Oxygen Level' ||
+                                Resources[index].name == 'Water Reserve'
+                            ? Text(
+                                '${Resources[index].quantity.toStringAsFixed(2)}% Left',
+                                style: GoogleFonts.aBeeZee(),
+                              )
+                            : Text(
+                                '${Resources[index].quantity.toString()}Kgs Left',
+                                style: GoogleFonts.aBeeZee(),
+                              ),
+                        trailing:
+                            _buildCircularProgress(resources[index].quantity),
+                      ),
                     ),
                   ),
                 ),
@@ -53,16 +81,22 @@ void _showLogsDialog(
       return AlertDialog(
         title: Text('$resourceName Logs'),
         content: Container(
-          height: MediaQuery.of(context).size.height * 0.6, // Adjust the height
+          height: MediaQuery.of(context).size.height * 0.6,
           width: MediaQuery.of(context).size.width * 0.8,
           child: ListView(
             children: logs.map((log) {
               return ListTile(
                 title: Text(log.timestamp),
                 subtitle: resourceName == 'Oxygen Level' ||
-                    resourceName == 'Water Reserve'
-                    ? Text('${log.value.toStringAsFixed(2)} %',style: GoogleFonts.aBeeZee(),)
-                    : Text('${log.value.toString()} Pkts',style: GoogleFonts.aBeeZee(),),
+                        resourceName == 'Water Reserve'
+                    ? Text(
+                        '${log.value.toStringAsFixed(2)} %',
+                        style: GoogleFonts.aBeeZee(),
+                      )
+                    : Text(
+                        '${log.value.toString()} Kg',
+                        style: GoogleFonts.aBeeZee(),
+                      ),
               );
             }).toList(),
           ),
@@ -72,7 +106,11 @@ void _showLogsDialog(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child:  Text('Close',style: GoogleFonts.aBeeZee(fontWeight: FontWeight.bold,color: Colors.black54),),
+            child: Text(
+              'Close',
+              style: GoogleFonts.aBeeZee(
+                  fontWeight: FontWeight.bold, color: Colors.black54),
+            ),
           ),
         ],
       );
@@ -95,7 +133,11 @@ Widget _buildCircularProgress(int quantity) {
           value: quantity / 100,
           strokeWidth: 3.0,
           backgroundColor: Colors.grey,
-          valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+          valueColor: quantity >= 50
+              ? const AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 27, 222, 13))
+              : const AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 222, 13, 13)),
         ),
       ),
     ],
